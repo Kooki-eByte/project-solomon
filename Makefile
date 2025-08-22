@@ -41,7 +41,7 @@ CFLAGS += $(INCLUDE_DIRS)
 ENGINE_CORE := $(wildcard ./engine/*.c) $(wildcard ./engine/**/*.c)
 GAME_CORE 	:= $(wildcard ./$(GAME)/*.c) $(wildcard ./$(GAME)/**/*.c)
 
-MAIN_CORE 	:= $(ENGINE_CORE) $(GAME_CORE)
+MAIN_CORE 	:= $(wildcard ./*.c) $(ENGINE_CORE) $(GAME_CORE)
 
 LIBS 				:= $(PKG_LIBS)
 
