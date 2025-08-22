@@ -7,6 +7,7 @@
 - Capable of pulling engine code and making game separately to ensure separation of concern and
   reusability with other ideas.
 
+```python
 Project_Solomon/
 ├── Makefile
 ├── README.md
@@ -32,3 +33,4 @@ Project_Solomon/
 │ ├── main.c # Game entry point
 │ └── game.h
 └── include/ # Shared/public headers
+```
