@@ -1,0 +1,117 @@
+# .clangd — Project Solomon
+
+# Use background indexing so jump-to-def/refs works across the whole tree.
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+# Prefer detailed completions & header insertion.
+Completion:
+  AllScopes: true
+  IncludeInsertion: iwyu
+  Duplicates: Merge
+
+Hover:
+  ShowAKA: Yes
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+
+# Diagnostics: keep useful notes, but don't spam on vendor code.
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+  Suppress:
+    - "unknown-argument"      # helps when compile flags differ per-OS
+    - "unused-macros"
+
+# Clang-Tidy: enable for your code, disable for deps.
+ClangTidy:
+  FastCheckFilter: Yes
+  UseBuiltinChecks: Yes
+  Remove: ""
+  Add: >
+    -*,
+    bugprone-*,
+    clang-analyzer-*,
+    cppcoreguidelines-*,
+    performance-*,
+    portability-*,
+    readability-*,
+    misc-*,
+    hicpp-*
+  WarningsAsErrors: "bugprone-*,clang-analyzer-*"
+
+# ---- Global compile flag defaults (used when compile_commands.json is missing)
+CompileFlags:
+  Add:
+    # Common preprocessor defines
+    - -DIMGUI_IMPL_OPENGL_LOADER_GLAD
+    # Includes (relative to repo root)
+    - -Iengine
+    - -I${CONFIG_DIR}/engine         # allow opening from subdirs
+    - -Ideps/glad
+    - -Ideps/imgui/imgui
+    - -Ideps/imgui/imgui/backends
+    - -Ideps/cglm
+  Remove: []    # keep empty; use per-file blocks below for special cases
+
+# ---- Per-language / per-path tweaks
+If:
+  # 1) Your C sources: engine/ and any game/* folder
+  - PathMatch: "(engine|game_[^/]+)/.*\\.(c|h)$"
+    CompileFlags:
+      Add:
+        - -std=c99
+        - -Wall
+        - -Wextra
+        - -Wno-unused-parameter
+        - -Wno-missing-field-initializers
+    ClangTidy:
+      Add: >
+        c-*                                # enable C-only checks where available
+
+  # 2) Dear ImGui + cimgui (C++): give them C++17 and hush warnings/tidy
+  - PathMatch: "deps/(imgui|.*cimgui).*(\\.cpp|\\.hpp|\\.h)$"
+    CompileFlags:
+      Add:
+        - -std=c++17
+        - -w                           # silence vendor warnings in the UI
+    ClangTidy:
+      Add: "-*"
+
+  # 3) GL backends that may include glad/GLFW C headers inside C++ TU
+  - PathMatch: "deps/imgui/imgui/backends/.*\\.cpp$"
+    CompileFlags:
+      Add:
+        - -std=c++17
+        - -w
+
+# ---- Toolchain detection (lets clangd respect GCC/Clang specifics per host)
+# Add your local compilers as needed (MinGW, AppleClang, etc.)
+# Example patterns work on Linux/macOS/MinGW.
+CompileFlags:
+  Compiler: ""
+  Add: []
+  # Let clangd query these compilers for system includes/defines when present.
+  # If your compiler lives elsewhere, add its absolute path here.
+  # e.g., "C:/msys64/mingw64/bin/g++.exe"
+  # (Empty means "auto-detect".)
+  # QueryDriver supports wildcards:
+  #   - /usr/bin/**/gcc
+  #   - /usr/bin/**/g++
+  #   - /usr/bin/**/clang
+  #   - /usr/bin/**/clang++
+  #   - C:/msys64/mingw64/bin/**
+
+# ---------------------------------------------------------------------------
+# Tips:
+# 1) Best results if you generate a compile_commands.json from your Makefile:
+#    - Linux/macOS:   bear -- make -j
+#    - Or:            intercept-build --append make -j
+#    - Then clangd will use exact per-file flags automatically.
+# 2) If you add another game (e.g., game_platformer/), this config already
+#    matches it via the PathMatch "(engine|game_[^/]+)/".
+# ---------------------------------------------------------------------------
