@@ -1,0 +1,88 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Make: Compile Engine and Game",
+      "type": "shell",
+      "command": "mingw32-make",
+      "windows": {
+        "command": "mingw32-make"
+      },
+      "linux": {
+        "command": "make"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Remove Bin and Build Contents",
+      "type": "shell",
+      "command": "mingw32-make",
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-Command",
+          "rm ./bin/* ./build/*"
+        ]
+      },
+      "linux": {
+        "command": "make",
+        "args": [
+          "clean"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Execute App",
+      "type": "shell",
+      "command": "./bin/solomon",
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-Command",
+          "./bin/solomon.exe"
+        ]
+      },
+      "linux": {
+        "command": "./bin/solomon"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile and Execute App",
+      "type": "shell",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Make: Compile Engine and Game",
+        "Execute App"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Reload Compile and Execute App",
+      "type": "shell",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Remove Bin and Build Contents",
+        "Make: Compile Engine and Game",
+        "Execute App"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
