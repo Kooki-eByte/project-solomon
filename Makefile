@@ -31,10 +31,14 @@ CXXFLAGS := $(CXXWARN) $(COPT)
 # Uncomment when implementing c imgui
 # DEFINES  := -DIMGUI_IMPL_OPENGL_LOADER_GLAD
 
-INCLUDE_DIRS 	:= -I$(wildcard deps/**) -I$(wildcard include/**)
+INCLUDE_DIRS 	:= -Ideps/arena \
+	-Ideps/cglm \
+	-Ideps/glad \
+	-Ideps/KHR \
+	-Ideps/stb
 
-PKG_CFLAGS := $(shell pkg-config --cflags glfw3 2>/dev/null)
-PKG_LIBS 	 := $(shell pkg-config --libs glfw3 2>/dev/null)
+PKG_CFLAGS := $(shell pkg-config --cflags glfw3 sdl3 2>/dev/null)
+PKG_LIBS 	 := $(shell pkg-config --libs glfw3 sdl3 2>/dev/null)
 
 CFLAGS += $(INCLUDE_DIRS)
 
@@ -49,7 +53,7 @@ OBJECTS 		:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(MAIN_CORE))
 
 ifeq ($(UNAME_S), Linux)
 # opengl link flags
-	LIBS += -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
+	LIBS += -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
 endif
 
 ifeq ($(UNAME_S), Darwin)

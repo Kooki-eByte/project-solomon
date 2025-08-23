@@ -1,7 +1,16 @@
+// Plug in deps
+#define ARENA_IMPLEMENTATION
+#include "deps/arena/arena.h"
 #include "engine/engine.h"
 
+
 int main(void) {
-  engine_main();
-  printf("Hello From main!\n");
+  Game game = {0};
+
+  if(solomonEngineInit(&game)) {
+    startEngine(game.renderer);
+  }
+
+  killEngine(&game);
   return 0;
 }
