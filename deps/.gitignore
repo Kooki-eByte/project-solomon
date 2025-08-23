@@ -1,0 +1,6 @@
+# Ingore everything
+*
+
+# Except the README and gitignore file obviously lol
+!*.md
+!.gitignore
