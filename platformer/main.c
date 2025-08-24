@@ -1,23 +1,23 @@
-#include <SDL3/SDL.h>
+// #include <SDL3/SDL.h>
 #include <math.h>
 
 // Plug in deps
 #define ARENA_IMPLEMENTATION
-#include "deps/arena/arena.h"
-#include "deps/glad/glad.h"
+#include "../deps/arena/arena.h"
+#include "../deps/glad/glad.h"
 
 #define SDL_MAIN_USE_CALLBACKS 0
 // Game Engine
-#include "engine/engine.h"
-#include "engine/envy/envy_shader.h"
-#include "engine/graphics/buffer_handler.h"
-#include "engine/graphics/vertex_array_handler.h"
+#include "../engine/engine.h"
+#include "../engine/graphics/envy/envy_shader.h"
+#include "../engine/graphics/buffer_handler.h"
+#include "../engine/graphics/vertex_array_handler.h"
 
 // Global States
-#include "global.h"
+#include "../global.h"
 
-#define GLSL_VERT_FILE "engine/envy/defaults/default-test.vert"
-#define GLSL_FRAG_FILE "engine/envy/defaults/default-test.frag"
+#define GLSL_VERT_FILE "engine/graphics/envy/defaults/default-test.vert"
+#define GLSL_FRAG_FILE "engine/graphics/envy/defaults/default-test.frag"
 
 static bool initGLLoader(void) {
   
@@ -124,7 +124,9 @@ int main(void) {
   unbindEBO();
 
   glEnable(GL_DEPTH_TEST);
-  
+ 
+  // Can probably be handled in game section of folder for game loop?
+  // TODO: Research where this loop should be and how to craft a proper game loop
   while (gs.is_game_running) {
     SDL_GL_SwapWindow(window);
     

@@ -42,10 +42,14 @@ PKG_LIBS 	 := $(shell pkg-config --libs glfw3 sdl3 2>/dev/null)
 
 CFLAGS += $(INCLUDE_DIRS)
 
-ENGINE_CORE := $(wildcard ./engine/*.c) $(wildcard ./engine/**/*.c) $(wildcard ./deps/**/*.c)
+ENGINE_CORE := $(wildcard ./engine/*.c) \
+	$(wildcard ./engine/**/*.c) \
+	$(wildcard ./engine/**/**/*.c) \
+	$(wildcard ./deps/**/*.c)
+
 GAME_CORE 	:= $(wildcard ./$(GAME)/*.c) $(wildcard ./$(GAME)/**/*.c)
 
-MAIN_CORE 	:= $(wildcard ./*.c) $(ENGINE_CORE) $(GAME_CORE)
+MAIN_CORE 	:= $(ENGINE_CORE) $(GAME_CORE)
 
 LIBS 				:= $(PKG_LIBS)
 
