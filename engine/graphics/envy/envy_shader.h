@@ -1,8 +1,8 @@
 #ifndef ENVY_SHADER_H
 #define ENVY_SHADER_H
 
-#include "../../deps/glad/glad.h"
-#include "../../defines.h"
+#include "../../../deps/glad/glad.h"
+#include "../../../defines.h"
 
 #include <stdio.h>
 #include <stdlib.h>

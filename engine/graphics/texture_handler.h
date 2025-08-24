@@ -3,8 +3,8 @@
 
 #include "../../deps/stb/stb_image.h"
 #include "../../deps/glad/glad.h"
-#include "../envy/envy_shader.h"
 #include "../../defines.h"
+#include "envy/envy_shader.h"
 
 
 // Naming is for playground purposes only !
