@@ -8,11 +8,9 @@
   - To get the header files to plug into here (since I refuse to use CMake sorry, not sorry) here is the link.
     - http://glad.dav1d.de/
 
-- GLFW
-  - GLFW is a library, written in C, specifically targeted at OpenGL. GLFW gives us the bare
-    necessities required for rendering goodies to the screen. It allows us to create an OpenGL
-    context, define window parameters, and handle user input, which is plenty enough for our purposes.
-  - Link: http://www.glfw.org/download.html
+- SDL3
+  - Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL/Direct3D/Metal/Vulkan. It is used by video playback software, emulators, and popular games including Valve's award winning catalog and many Humble Bundle games.
+  - Link: https://github.com/libsdl-org/SDL/releases
 
 - stb
   - Mainly using stb_image to handle reading images such as PNGs to be used for textures in the pipeline.

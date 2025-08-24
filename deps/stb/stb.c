@@ -1,0 +1,4 @@
+// Get stb_image.h from solomon-deps-README.md link
+// HERE JUST FOR ONE TRANSLATION UNIT TO AVOID MULTIPLE DEFINITION COMPILE ERROR
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"

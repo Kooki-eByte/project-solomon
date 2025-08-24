@@ -14,13 +14,13 @@ Project_Solomon/
 ├── LICENSE
 ├── bin/ # Output binaries
 ├── build/ # Temporary build files
-├── deps/ # External dependencies (GLFW, GLAD, etc.)
+├── deps/ # External dependencies (SDL, GLAD, etc.)
 │ ├── glad/
-│ └── glfw/
+│ └── sdl/
 ├── engine/ # Core engine code (reusable, abstract)
 │ ├── core/ # Init, memory, time, logging, etc.
 │ ├── graphics/ # OpenGL rendering abstraction
-│ ├── input/ # Input handling (GLFW-specific)
+│ ├── input/ # Input handling (SDL-specific)
 │ ├── math/ # Math types (vec3, mat4, etc.)
 │ ├── physics/ # Optional physics systems
 │ ├── ecs/ # Entity-Component-System

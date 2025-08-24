@@ -20,7 +20,7 @@ CWARN 		:= -Wall -Wextra -Werror -Wno-unused-parameter
 CXXWARN 		:= -Wall -Wextra -Werror -Wno-unused-parameter
 
 ifeq ($(BUILD), Debug)
-	COPT := -O0 -g3
+	COPT := -O0 -g
 else
 	COPT := -O2 -DNDEBUG
 endif
@@ -42,7 +42,7 @@ PKG_LIBS 	 := $(shell pkg-config --libs glfw3 sdl3 2>/dev/null)
 
 CFLAGS += $(INCLUDE_DIRS)
 
-ENGINE_CORE := $(wildcard ./engine/*.c) $(wildcard ./engine/**/*.c)
+ENGINE_CORE := $(wildcard ./engine/*.c) $(wildcard ./engine/**/*.c) $(wildcard ./deps/**/*.c)
 GAME_CORE 	:= $(wildcard ./$(GAME)/*.c) $(wildcard ./$(GAME)/**/*.c)
 
 MAIN_CORE 	:= $(wildcard ./*.c) $(ENGINE_CORE) $(GAME_CORE)

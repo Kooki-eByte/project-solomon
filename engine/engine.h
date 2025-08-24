@@ -1,29 +1,34 @@
 #ifndef SOLOMON_ENGINE_H
 #define SOLOMON_ENGINE_H
 
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
+
+// #include <SDL3/SDL_main.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define SDL_FLAGS SDL_INIT_VIDEO
 
 #include "../defines.h"
+#include "../global.h"
+#include "logging/greed.h"
 
 typedef struct Game {
   SDL_Window *window;
-  SDL_Renderer *renderer;
+  SDL_GLContext *ctx;
+  bool is_vsync;
 } Game;
 
-// Returns true or false if initialization fails
-bool solomonEngineInit(Game *g);
+// Window Handling
+// void initWindow(Game *g, struct Global_Settings *gs);
 
-void initWindow(Game *g, const char *title, b32 w, b32 h);
+// void initContext(Game *g, struct Global_Settings *gs);
 
-void initRenderer(Game *g);
+// void windowPump(f32 *dt, Game *g, struct Global_Settings *gs);
 
-void killEngine(Game *g);
+// void solomonEngineInit(Game *g, struct Global_Settings *gs);
 
-void startEngine(SDL_Renderer *r);
+// void swapWindowBuffer(Game *g);
+
+// void killEngine(Game *g);
 
 #endif // SOLOMON_ENGINE_H
