@@ -13,6 +13,11 @@
 typedef enum { LOG_DBG, LOG_SCS, LOG_WRN, LOG_ERR, LOG_LVL_LEN } LOG_LEVEL;
 
 void g_logger(LOG_LEVEL lvl, const char *msg, char *file, int line);
+
+#define g_log_debug(msg)   g_logger(LOG_DBG, msg, __FILE__, __LINE__);
+#define g_log_success(msg) g_logger(LOG_SCS, msg, __FILE__, __LINE__);
+#define g_log_warning(msg) g_logger(LOG_WRN, msg, __FILE__, __LINE__);
+#define g_log_error(msg)   g_logger(LOG_ERR, msg, __FILE__, __LINE__);
 #endif // GREED_LOGGER_H
 
 // IMPLEMENTATION
@@ -43,10 +48,4 @@ void g_logger(LOG_LEVEL lvl, const char *msg, char *file, int line) {
     m_time->tm_sec);
     printf("[%s on line %u in file %s]\n%s", msg, line, file, DEFAULT_COLOR);
 }
-
-#define g_log_debug(msg)   g_logger(LOG_DBG, msg, __FILE__, __LINE__);
-#define g_log_success(msg) g_logger(LOG_SCS, msg, __FILE__, __LINE__);
-#define g_log_warning(msg) g_logger(LOG_WRN, msg, __FILE__, __LINE__);
-#define g_log_error(msg)   g_logger(LOG_ERR, msg, __FILE__, __LINE__);
-
 #endif // GREED_IMPLEMENTATION
