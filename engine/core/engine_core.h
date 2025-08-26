@@ -17,11 +17,6 @@ typedef struct EngineCorePlatform {
 bool solomonEngineStartup(GameEngineConfigs *engine_config, EngineCorePlatform *platform);
 
 // Handles Engine running with gameloop
-bool solomonEngineRun();
-
-// TODO: Can be static functions most likely
-bool solomonWindowStartup(GameEngineConfigs *engine_config, EngineCorePlatform *platform);
-
-bool solomonContextStartup(SDL_Window *w, SDL_GLContext ctx);
+bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbacks *cb, EngineCorePlatform *platform);
 
 #endif
