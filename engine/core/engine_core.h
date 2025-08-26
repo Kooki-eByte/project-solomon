@@ -3,7 +3,8 @@
 
 #include "../engine.h"
 
-// TODO: This is to initialize everything needed for the core engine to run. 
+// TODO: This is to initialize everything needed for the core engine to run.
+// Hold the game loop and game loop calls the game callback functions 
 // Will be called by game main.c
 
 typedef struct EngineCorePlatform {
@@ -15,8 +16,11 @@ typedef struct EngineCorePlatform {
 // SDL Initialize Subsystems | Request GL 3.3 Core Profile |
 bool solomonEngineStartup(GameEngineConfigs *engine_config, EngineCorePlatform *platform);
 
+// Handles Engine running with gameloop
+bool solomonEngineRun();
+
 // TODO: Can be static functions most likely
-bool solomonWindowStartup(GameEngineConfigs *engine_config, SDL_Window *w);
+bool solomonWindowStartup(GameEngineConfigs *engine_config, EngineCorePlatform *platform);
 
 bool solomonContextStartup(SDL_Window *w, SDL_GLContext ctx);
 

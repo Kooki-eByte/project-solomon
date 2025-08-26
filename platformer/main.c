@@ -19,8 +19,6 @@
 #define GLSL_VERT_FILE "engine/graphics/envy/defaults/default-test.vert"
 #define GLSL_FRAG_FILE "engine/graphics/envy/defaults/default-test.frag"
 
-
-
 int main(void) {
   // Initializing global settings/state for game window
   GameEngineConfigs gec = {
@@ -49,42 +47,8 @@ int main(void) {
     3, 4, 2
   };
 
-// ------- Initial set up for SDL usage
-  if (!solomonEngineStartup(&gec, &platform)) {
-    g_log_error("Solomon engine failed to startup!");
-    return 1;
-  }
-  // Initialize SDL subsystems
-  // if (!SDL_Init(SDL_INIT_VIDEO)) {
-  //   fprintf(stderr, "Error Initalization for video failed: %s\n", SDL_GetError());
-  //   return 1;
-  // }
-
-  // Request a GL 3.3 Core profile
-  // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); 
-  // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-  // // Window init
-  // SDL_Window *window = SDL_CreateWindow(gs.title, gs.width, gs.height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-  // if (!window) {
-  //   fprintf(stderr, "Error Initalization for window failed: %s\n", SDL_GetError());
-  //   return 1; 
-  // }
-
-  // // SDL context for openGL
-  // SDL_GLContext ctx = SDL_GL_CreateContext(window);
-  // if (!ctx) {
-  //   fprintf(stderr, "Error Initalization for GL context failed: %s\n", SDL_GetError());
-  //   return 1;  
-  // }
-
-  // // Calls static file to load SDL's function pointers with OpenGL functions? Maybe?
-  // if (!initGLLoader()) return 1;
-
-  // // Initial viewport set up
-  // glViewport(0, 0, gs.width, gs.height);
-// --------- End Initial setup for SDL
+  // --- Initial set up for SDL usage --- //
+  solomonEngineStartup(&gec, &platform);
   
   Envy_Shader e_shader = {0};
   if (!envy_CreateShadersFromFiles(&e_shader, GLSL_VERT_FILE, GLSL_FRAG_FILE)) {
@@ -154,6 +118,9 @@ int main(void) {
     }
   }
 
+  // solomonEngineInit(&game, &gs);
+
+  // killEngine(&game);
   deleteVAO(&vao1);
   deleteBuffers(&vbo1, &ebo1);
   envy_DestroyShader(&e_shader);
