@@ -1,11 +1,11 @@
 #include "game.h"
 
 bool gameInit(void *game_state) {
-  if (game_state) {
-    fprintf(stderr, "Game State needs to be initialized with {0}");
+  GameState *gs = (GameState*)game_state;
+  if (game_state == NULL) {
+    fprintf(stderr, "Game State needs to be initialized with {0}\n");
     return false;
   }
-  GameState *gs = (GameState*)game_state;
 
   gs->is_game_running = true;
   return true;
@@ -30,12 +30,12 @@ void gameShutdown(void *game_state) {
 }
 
 void gameOnEvent(void *game_state, const void *sdl_event) {
-  GameState *gs = (GameState *)game_state;
+  (void)game_state;
   const SDL_Event *ev = (const SDL_Event*)sdl_event;
   switch (ev->type) {
     case SDL_EVENT_KEY_DOWN:
-      if (ev->key.key == SDLK_ESCAPE) {
-        gs->is_game_running = false;
+      if (ev->key.key == SDLK_LSHIFT) {
+        // do something here
       }
       break;
     // Handle more event inputs here for gamee logic

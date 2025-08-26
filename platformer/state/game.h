@@ -6,6 +6,7 @@
 #include "SDL3/SDL_events.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct GameState {
   bool is_game_running;

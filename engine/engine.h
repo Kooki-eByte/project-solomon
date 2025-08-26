@@ -21,8 +21,8 @@
 #include "graphics/texture_handler.h"
 #include "graphics/vertex_array_handler.h"
 
-#define GLSL_VERT_FILE "../graphics/envy/defaults/default-test.vert"
-#define GLSL_FRAG_FILE "../graphics/envy/defaults/default-test.frag"
+#define GLSL_VERT_FILE "engine/graphics/envy/defaults/default-test.vert"
+#define GLSL_FRAG_FILE "engine/graphics/envy/defaults/default-test.frag"
 
 // TODO: This is for later but will be useful when moving to game code
 typedef struct SolomonGameCallbacks {  

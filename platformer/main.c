@@ -29,10 +29,11 @@ int main(void) {
     .enable_vsync = true,
     .enable_imgui = false,
     .target_fps = 60.0f,
-    .max_frame_dt = 0.25f
+    .max_frame_dt = 0.25f,
+    .is_engine_running = true
   }; 
   EngineCorePlatform platform = {0};
-  GameState gs = {0};
+  GameState *gs = (GameState*)malloc(sizeof(GameState));
 
   SolomonGameCallbacks cb = {
     .initialize = gameInit,
