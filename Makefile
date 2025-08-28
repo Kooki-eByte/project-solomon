@@ -9,7 +9,7 @@ GAME 			:= platformer
 BIN_DIR 	:= bin
 BUILD_DIR := build
 
-IMGUI_DIR 	:= deps/imgui
+IMGUI_DIR 	:= deps/cimgui/imgui
 C_IMGUI_DIR := deps/cimgui
 
 CC 				:= gcc
@@ -33,15 +33,15 @@ CFLAGS 	 := $(CSTD) $(CWARN) $(COPT)
 CXXFLAGS := $(CXXSTD) $(CXXWARN) $(COPT)
 
 # Uncomment when implementing c imgui
-DEFINES  := -DIMGUI_IMPL_OPENGL_LOADER_GLAD
+DEFINES  := -DIMGUI_IMPL_OPENGL_LOADER_GLAD -DIMGUI_DISABLE_DEMO_WINDOWS
 
 INCLUDE_DIRS 	:= -Ideps/arena \
 	-Ideps/cglm \
 	-Ideps/glad \
 	-Ideps/KHR \
 	-Ideps/stb \
-	-Ideps/imgui \
-	-Ideps/imgui/backends \
+	-Ideps/cimgui/imgui \
+	-Ideps/cimgui/imgui/backends \
 	-Ideps/cimgui
 
 PKG_CFLAGS := $(shell pkg-config --cflags glfw3 sdl3 2>/dev/null)
@@ -63,6 +63,7 @@ IMGUI_SRC := $(IMGUI_DIR)/imgui.cpp \
 	$(IMGUI_DIR)/imgui_widgets.cpp \
 	$(IMGUI_DIR)/backends/imgui_impl_sdl3.cpp \
 	$(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp \
+	$(IMGUI_DIR)/imgui_demo.cpp \
 	$(C_IMGUI_DIR)/cimgui.cpp \
 	$(C_IMGUI_DIR)/imgui_bridge.cpp
 
