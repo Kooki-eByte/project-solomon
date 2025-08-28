@@ -1,0 +1,11 @@
+# Ingore everything
+/arena
+/cglm
+/KHR
+/stb/stb_image.h
+/glad/glad.h
+# Except the README and gitignore file obviously lol
+!*.md
+!.gitignore
+!/glad/glad.c
+!/stb/stb.c
