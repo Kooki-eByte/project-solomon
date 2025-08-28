@@ -19,4 +19,8 @@ bool solomonEngineStartup(GameEngineConfigs *engine_config, EngineCorePlatform *
 // Handles Engine running with gameloop
 bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbacks *cb, EngineCorePlatform *platform);
 
+// IMGUI SETUP
+
+
+
 #endif
