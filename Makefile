@@ -32,8 +32,11 @@ endif
 CFLAGS 	 := $(CSTD) $(CWARN) $(COPT)
 CXXFLAGS := $(CXXSTD) $(CXXWARN) $(COPT)
 
-# Uncomment when implementing c imgui
 DEFINES  := -DIMGUI_IMPL_OPENGL_LOADER_GLAD -DIMGUI_DISABLE_DEMO_WINDOWS
+
+# Enables imgui functionality debugging
+# TODO: Have makefile plug this in when specifying debug on make..
+DEFINES	 += -DENGINE_DEBUG
 
 INCLUDE_DIRS 	:= -Ideps/arena \
 	-Ideps/cglm \

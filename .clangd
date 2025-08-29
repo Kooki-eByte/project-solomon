@@ -49,13 +49,18 @@ CompileFlags:
   Add:
     # Common preprocessor defines
     - -DIMGUI_IMPL_OPENGL_LOADER_GLAD
+    - -DENGINE_DEBUG
     # Includes (relative to repo root)
     - -Iengine
     - -I${CONFIG_DIR}/engine         # allow opening from subdirs
-    - -Ideps/glad
-    - -Ideps/imgui/imgui
-    - -Ideps/imgui/imgui/backends
+    - -Ideps/arena
     - -Ideps/cglm
+    - -Ideps/glad
+    - -Ideps/KHR
+    - -Ideps/stb
+    - -Ideps/cimgui/imgui
+    - -Ideps/cimgui/imgui/backends
+    - -Ideps/cimgui
   Remove: []    # keep empty; use per-file blocks below for special cases
 
 # ---- Per-language / per-path tweaks
@@ -83,7 +88,7 @@ If:
       Add: "-*"
 
   # 3) GL backends that may include glad/GLFW C headers inside C++ TU
-  - PathMatch: "deps/imgui/imgui/backends/.*\\.cpp$"
+  - PathMatch: "deps/cimgui/imgui/backends/.*\\.cpp$"
     CompileFlags:
       Add:
         - -std=c++17

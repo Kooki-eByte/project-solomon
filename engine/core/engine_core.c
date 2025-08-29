@@ -1,4 +1,9 @@
+#ifdef ENGINE_DEBUG
+#define ENGINE_CORE_DEBUG
+#endif // ENGINE_DEBUG
+
 #include "engine_core.h"
+
 
 static bool initGLLoader() {
   return !gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress) ? false : true;
@@ -38,6 +43,14 @@ bool solomonEngineStartup(GameEngineConfigs *engine_config, EngineCorePlatform *
     g_log_error("Failed to retrieve GL loader");
     return false;
   }
+
+  #ifdef ENGINE_DEBUG
+  if (!solomonEngineImguiInit(platform)) {
+    g_log_error("Failed to create context for CImGui!");
+    return false;
+  }
+  #endif // ENGINE_DEBUG
+  
   return true;
 }
 
@@ -118,6 +131,9 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
     // --- Events ---
     SDL_Event ev;
     while (SDL_PollEvent(&ev)) {
+      #ifdef ENGINE_DEBUG
+        cimgui_ImplSDL3_ProcessEvent(&ev);
+      #endif // ENGINE_DEBUG 
       if (ev.type == SDL_EVENT_QUIT) engine_config->is_engine_running = false;
       if (ev.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) engine_config->is_engine_running = false;
       if (ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_ESCAPE) engine_config->is_engine_running = false;
@@ -146,6 +162,7 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
       frame = engine_config->max_frame_dt;
     }
 
+    
     // Handle update
     if (dt > 0.0f) {
       acc += frame;
@@ -154,7 +171,7 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
         acc -= dt;
       }
       f32 alpha = (f32)(acc / dt);
-
+      
       // Handle render step
       cb->render(cb->game_state, alpha);
     } else {
@@ -162,6 +179,23 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
       cb->update(cb->game_state, (f32)frame);
       cb->render(cb->game_state, 1.0f);
     }
+    
+    #ifdef ENGINE_DEBUG
+
+    // Start a new ImGui Frame //
+    cimgui_ImplOpenGL3_NewFrame();
+    cimgui_ImplSDL3_NewFrame();
+    igNewFrame();
+
+    // -- Build UI -- //
+    igBegin("Hello, World. ImGui (C)", NULL, 0);
+    igText("It is working! :)");
+    igEnd();
+
+    // -- Render -- //
+    igRender();
+    cimgui_ImplOpenGL3_RenderDrawData(igGetDrawData());
+    #endif // ENGINE_DEBUG
   }
 
   // TODO: Make a check in the beginning to make sure the game side did its job to 
