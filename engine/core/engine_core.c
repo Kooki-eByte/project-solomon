@@ -123,6 +123,12 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
     return false;
   }
 
+  bool toggle_debug = false;
+  bool show_triangle = true;
+
+  f32 scale = 1.0f;
+  f32 debug_color[3] = { 0.8f, 0.3f, 0.02f };
+
   while (engine_config->is_engine_running) {
     SDL_GL_SwapWindow(platform->window);
   
@@ -137,7 +143,9 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
       if (ev.type == SDL_EVENT_QUIT) engine_config->is_engine_running = false;
       if (ev.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) engine_config->is_engine_running = false;
       if (ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_ESCAPE) engine_config->is_engine_running = false;
-
+      if (ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_M) {
+        toggle_debug = !toggle_debug;
+      }
       // Window resize
       if (ev.type == SDL_EVENT_WINDOW_RESIZED || ev.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) {
         engine_config->width = ev.window.data1, engine_config->height = ev.window.data2;
@@ -151,6 +159,10 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
     }
 
     envy_UseShader(&e_shader);
+    // TODO: Remove. For testing purposes only
+    glUniform1f(envy_GetShaderUniform(&e_shader, "scale"), scale);
+    glUniform3f(envy_GetShaderUniform(&e_shader, "debugColor"), debug_color[0], debug_color[1], debug_color[2]);
+    // -------
     bindVAO(&vao1);
 
     // --- Timing ---
@@ -162,7 +174,6 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
       frame = engine_config->max_frame_dt;
     }
 
-    
     // Handle update
     if (dt > 0.0f) {
       acc += frame;
@@ -173,30 +184,36 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
       f32 alpha = (f32)(acc / dt);
       
       // Handle render step
-      cb->render(cb->game_state, alpha);
+      cb->render(cb->game_state, alpha, show_triangle);
     } else {
       // Variable step path
       cb->update(cb->game_state, (f32)frame);
-      cb->render(cb->game_state, 1.0f);
+      cb->render(cb->game_state, 1.0f, show_triangle);
     }
     
     #ifdef ENGINE_DEBUG
+    if (toggle_debug) {
+      // Start a new ImGui Frame //
+      cimgui_ImplOpenGL3_NewFrame();
+      cimgui_ImplSDL3_NewFrame();
+      igNewFrame();
 
-    // Start a new ImGui Frame //
-    cimgui_ImplOpenGL3_NewFrame();
-    cimgui_ImplSDL3_NewFrame();
-    igNewFrame();
-
-    // -- Build UI -- //
-    igBegin("Hello, World. ImGui (C)", NULL, 0);
-    igText("It is working! :)");
-    igEnd();
-
-    // -- Render -- //
-    igRender();
-    cimgui_ImplOpenGL3_RenderDrawData(igGetDrawData());
+      // -- Build UI -- //
+      igBegin("Hello, World. ImGui (C)", NULL, 0);
+      igText("It is working! :)");
+      igCheckbox("Show Triangle", &show_triangle); 
+      igSliderFloat("Scale Triangle", &scale, 0.5f, 3.0f, "%.3f", 0);
+      igColorEdit3("Change Triangle color", debug_color, 0);
+      igEnd();
+  
+      // -- Render -- //
+      igRender();
+      cimgui_ImplOpenGL3_RenderDrawData(igGetDrawData());
+    }
     #endif // ENGINE_DEBUG
   }
+
+
 
   // TODO: Make a check in the beginning to make sure the game side did its job to 
   // have functions and make sure they are stored in the callback struct.
@@ -206,6 +223,9 @@ bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbac
   deleteVAO(&vao1);
   deleteBuffers(&vbo1, &ebo1);
   envy_DestroyShader(&e_shader);
+
+  // Teardown imgui instance toggled
+  if (toggle_debug) solomonEngineImguiShutdown(platform);
 
   // Teardown GL/SDL
   SDL_GL_DestroyContext(platform->ctx);

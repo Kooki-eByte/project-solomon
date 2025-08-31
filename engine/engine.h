@@ -33,7 +33,8 @@ typedef struct SolomonGameCallbacks {
   void (*update)(void *game_state, f32 delta_time);
 
   // Function pointer to game render function
-  void (*render)(void *game_state, f32 delta_time);
+  // TODO: Remove bool toggle later, was made for debug purposes
+  void (*render)(void *game_state, f32 delta_time, bool toggle);
 
   void (*shutdown)(void *game_state);
 

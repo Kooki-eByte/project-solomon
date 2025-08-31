@@ -18,7 +18,7 @@ bool gameInit(void *game_state);
 
 void gameUpdate(void *game_state, f32 delta_time);
 
-void gameRender(void *game_state, f32 delta_time);
+void gameRender(void *game_state, f32 delta_time, bool toggle);
 
 void gameShutdown(void *game_state);
 
