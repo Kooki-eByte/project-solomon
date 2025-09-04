@@ -293,4 +293,34 @@ typedef enum SKeys {
   KEYS_MAX_KEYS = 0xFF
 } SKeys;
 
+void input_initialize();
+
+void input_shutdown();
+
+void input_update(f32 delta_time);
+
+// Keyboard Input
+bool is_input_key_down(SKeys key);
+bool is_input_key_up(SKeys key);
+bool was_input_key_down(SKeys key);
+bool was_input_key_up(SKeys key);
+
+// Used to update current state of a key
+void input_process_key(SKeys key, bool pressed);
+
+// Mouse input
+bool is_mouse_button_down(SButtons button);
+bool is_mouse_button_up(SButtons button);
+bool was_mouse_butoon_down(SButtons button);
+bool was_mouse_button_up(SButtons button);
+
+// Mouse movement
+void get_mouse_position(i32 *x, i32 *y);
+void get_previous_mouse_button(i32 *x, i32 *y);
+
+// What the engine core will be calling mainly
+void process_input_button(SButtons button, bool pressed);
+void process_mouse_move(i16 x, i16 y);
+void process_input_wheel(i8 z_delta);
+
 #endif
