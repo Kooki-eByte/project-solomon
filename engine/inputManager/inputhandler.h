@@ -2,6 +2,7 @@
 #define SOLOMON_INPUT_HANDLER_H
 
 #include "../../defines.h"
+#include <stdbool.h>
 
 // NOTE:(Cristian) Centralized place for defining inputs no matter the
 // OS/gamepad
