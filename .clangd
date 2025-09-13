@@ -50,6 +50,7 @@ CompileFlags:
     # Common preprocessor defines
     - -DIMGUI_IMPL_OPENGL_LOADER_GLAD
     - -DENGINE_DEBUG
+    - -DSDL_INPUT_HANDLING
     # Includes (relative to repo root)
     - -Iengine
     - -I${CONFIG_DIR}/engine         # allow opening from subdirs
