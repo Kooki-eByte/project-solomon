@@ -32,11 +32,13 @@ endif
 CFLAGS 	 := $(CSTD) $(CWARN) $(COPT)
 CXXFLAGS := $(CXXSTD) $(CXXWARN) $(COPT)
 
+# Defines needed for deps
 DEFINES  := -DIMGUI_IMPL_OPENGL_LOADER_GLAD -DIMGUI_DISABLE_DEMO_WINDOWS
 
+# Defines needed for game/engine
 # Enables imgui functionality debugging
 # TODO: Have makefile plug this in when specifying debug on make..
-DEFINES	 += -DENGINE_DEBUG
+DEFINES	 += -DENGINE_DEBUG -DSDL_INPUT_HANDLING
 
 INCLUDE_DIRS 	:= -Ideps/arena \
 	-Ideps/cglm \
