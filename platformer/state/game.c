@@ -34,7 +34,7 @@ void gameShutdown(void *game_state) {
 
 void gameOnEvent(void *game_state, const void *sdl_event) {
   (void)game_state;
-  
+
   const SDL_Event *ev = (const SDL_Event*)sdl_event;
   switch (ev->type) {
     case SDL_EVENT_KEY_DOWN:

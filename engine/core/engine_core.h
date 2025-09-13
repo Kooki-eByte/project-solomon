@@ -2,6 +2,7 @@
 #define ENGINE_CORE_H
 
 #include "../engine.h"
+#include "../input/input.h"
 
 // IMGUI SETUP
 // For debugging purposes only

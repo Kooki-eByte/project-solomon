@@ -119,7 +119,6 @@ bool solomonEngineRun(GameEngineConfigs *engine_config,
     return false;
   }
 
-  bool toggle_debug = false;
   bool show_triangle = true;
 
   f32 scale = 1.0f;
@@ -131,36 +130,7 @@ bool solomonEngineRun(GameEngineConfigs *engine_config,
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // --- Events ---
-    SDL_Event ev;
-    while (SDL_PollEvent(&ev)) {
-#ifdef ENGINE_DEBUG
-      cimgui_ImplSDL3_ProcessEvent(&ev);
-#endif // ENGINE_DEBUG
-      if (ev.type == SDL_EVENT_QUIT)
-        engine_config->is_engine_running = false;
-      if (ev.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED)
-        engine_config->is_engine_running = false;
-      if (ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_ESCAPE)
-        engine_config->is_engine_running = false;
-      if (ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_M) {
-        toggle_debug = !toggle_debug;
-      }
-      // Window resize
-      if (ev.type == SDL_EVENT_WINDOW_RESIZED ||
-          ev.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) {
-        engine_config->width = ev.window.data1,
-        engine_config->height = ev.window.data2;
-        // Min width and height exceeded reset value to min width and height
-        if (engine_config->width < 320)
-          engine_config->width = 320;
-        if (engine_config->height < 240)
-          engine_config->height = 240;
-        glViewport(0, 0, engine_config->width, engine_config->height);
-      }
-      if (cb->on_event)
-        cb->on_event(cb->game_state, &ev);
-      // Handle window resize, focus, etc...
-    }
+    process_input((SolomonGameCallbacks *)cb, engine_config);
 
     envy_UseShader(&e_shader);
     // TODO: Remove. For testing purposes only
@@ -198,7 +168,7 @@ bool solomonEngineRun(GameEngineConfigs *engine_config,
     }
 
 #ifdef ENGINE_DEBUG
-    if (toggle_debug) {
+    if (engine_config->enable_imgui) {
       // Start a new ImGui Frame //
       cimgui_ImplOpenGL3_NewFrame();
       cimgui_ImplSDL3_NewFrame();
@@ -229,7 +199,7 @@ bool solomonEngineRun(GameEngineConfigs *engine_config,
   envy_DestroyShader(&e_shader);
 
   // Teardown imgui instance toggled
-  if (toggle_debug)
+  if (engine_config->enable_imgui)
     solomonEngineImguiShutdown(platform);
 
   // Teardown GL/SDL
