@@ -35,25 +35,23 @@ void gameShutdown(void *game_state) {
 void gameOnEvent(void *game_state, const void *sdl_event) {
   (void)game_state;
   
-  printf("We have reached the gameOnEvent function in platformer side");
-
   const SDL_Event *ev = (const SDL_Event*)sdl_event;
   switch (ev->type) {
     case SDL_EVENT_KEY_DOWN:
       if (ev->key.key == SDLK_W) {
-        printf("W");
+        printf("W\n");
         // TODO: do something here
       }
       if (ev->key.key == SDLK_A) {
-        printf("A");
+        printf("A\n");
         // TODO: do something here
       }
       if (ev->key.key == SDLK_S) {
-        printf("S");
+        printf("S\n");
         // TODO: do something here
       }
       if (ev->key.key == SDLK_D) {
-        printf("D");
+        printf("D\n");
         // TODO: do something here
       }
       break;

@@ -15,6 +15,11 @@
 #include "../defines.h"
 #include "../global.h"
 
+#ifdef ENGINE_DEBUG
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include "debug/cimgui_backend.h"
+#endif // ENGINE_DEBUG
+
 #include "logging/greed.h"
 #include "graphics/envy/envy_shader.h"
 #include "graphics/buffer_handler.h"
@@ -59,4 +64,18 @@ typedef struct GameEngineConfigs {
   bool is_engine_running;
 } GameEngineConfigs;
 
+typedef struct EngineCorePlatform {
+  SDL_Window *window;
+  // TODO: Check if * needs to be removed
+  SDL_GLContext ctx;
+  #ifdef ENGINE_DEBUG
+  ImGuiContext *imgui_ctx;
+  #endif // ENGINE_DEBUG
+} EngineCorePlatform;
+
+// SDL Initialize Subsystems | Request GL 3.3 Core Profile |
+bool solomonEngineStartup(GameEngineConfigs *engine_config, EngineCorePlatform *platform);
+
+// Handles Engine running with gameloop
+bool solomonEngineRun(GameEngineConfigs *engine_config, const SolomonGameCallbacks *cb, EngineCorePlatform *platform);
 #endif // SOLOMON_ENGINE_H

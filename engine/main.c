@@ -4,13 +4,17 @@
 #include "../deps/glad/glad.h"
 
 #define SDL_MAIN_USE_CALLBACKS 0
+
 // Game Engine
-#include "../engine/core/engine_core.h"
+#include "engine.h"
 
 // Game
-#include "state/game.h"
+#include "../platformer/state/game.h"
+
+// NOTE:(Cristian) Main entrypoint is in engine, Engine will be in control of running the game and controlling it via the game callbacks
 
 int main(void) {
+  // TODO:(Cristian) Handle these initializations with Arena
   // Initializing state for game and engine config data
   GameEngineConfigs gec = {.width = 1280,
                            .height = 720,
@@ -23,6 +27,7 @@ int main(void) {
   EngineCorePlatform platform = {0};
   GameState *gs = (GameState *)malloc(sizeof(GameState));
 
+  // from game side
   SolomonGameCallbacks cb = {.initialize = gameInit,
                              .update = gameUpdate,
                              .render = gameRender,

@@ -1,7 +1,3 @@
-#ifdef ENGINE_DEBUG
-#define ENGINE_CORE_DEBUG
-#endif // ENGINE_DEBUG
-
 #include "engine_core.h"
 
 static bool initGLLoader() {
