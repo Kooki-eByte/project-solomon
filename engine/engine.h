@@ -26,6 +26,12 @@
 #include "graphics/texture_handler.h"
 #include "graphics/vertex_array_handler.h"
 
+// Setting default size of a region in an arena
+#define ARENA_REGION_DEFAULT_CAPACITY (KIB * 5)
+#include "memory/arena/arena.h"
+
+
+
 #define GLSL_VERT_FILE "engine/graphics/envy/defaults/default-test.vert"
 #define GLSL_FRAG_FILE "engine/graphics/envy/defaults/default-test.frag"
 

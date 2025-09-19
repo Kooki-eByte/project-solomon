@@ -38,4 +38,12 @@ typedef float f32;
 /** @brief 64-bit floating point number */
 typedef double f64;
 
+// --- Memory sizes --- //
+// 1024 Bytes
+#define KIB 1024
+// 1024 Kibibytes || 1,048,576 Bytes
+#define MIB 1024 * KIB
+// 1024 Mebibytes || 1,073,741,824 Bytes
+#define GIB 1024 * MIB
+
 #endif // SOLOMON_DEFINES_H
