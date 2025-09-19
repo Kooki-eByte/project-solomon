@@ -1,6 +1,4 @@
 // Plug in deps
-#define ARENA_IMPLEMENTATION
-#include "../deps/arena/arena.h"
 #include "../deps/glad/glad.h"
 
 #define SDL_MAIN_USE_CALLBACKS 0
@@ -11,32 +9,44 @@
 // Game
 #include "../platformer/state/game.h"
 
-// NOTE:(Cristian) Main entrypoint is in engine, Engine will be in control of running the game and controlling it via the game callbacks
+static Arena engine_arena = {0};
 
+// NOTE:(Cristian) Main entrypoint is in engine, Engine will be in control of running the game and controlling it via the game callbacks
 int main(void) {
-  // TODO:(Cristian) Handle these initializations with Arena
-  // Initializing state for game and engine config data
-  GameEngineConfigs gec = {.width = 1280,
-                           .height = 720,
-                           .game_title = "Project Solomon",
-                           .enable_vsync = true,
-                           .enable_imgui = false,
-                           .target_fps = 60.0f,
-                           .max_frame_dt = 0.25f,
-                           .is_engine_running = true};
-  EngineCorePlatform platform = {0};
-  GameState *gs = (GameState *)malloc(sizeof(GameState));
+  GameEngineConfigs *engine_config = arena_alloc(&engine_arena, sizeof(GameEngineConfigs)); 
+  engine_config->width = 1280;
+  engine_config->game_title = "Project Solomon";
+  engine_config->height = 720;
+  engine_config->enable_vsync = true;
+  engine_config->enable_imgui = false;
+  engine_config->target_fps = 60.0f;
+  engine_config->max_frame_dt = 0.25f;
+  engine_config->is_engine_running = true;
+
+  EngineCorePlatform *engine_platform = arena_alloc(&engine_arena, sizeof(EngineCorePlatform));
+  engine_platform->ctx = 0x0;
+  engine_platform->imgui_ctx = 0x0;
+  engine_platform->window = 0x0;
+
+  GameState *gs = arena_alloc(&engine_arena ,sizeof(GameState));
+  gs->is_game_running = false;
 
   // from game side
-  SolomonGameCallbacks cb = {.initialize = gameInit,
-                             .update = gameUpdate,
-                             .render = gameRender,
-                             .shutdown = gameShutdown,
-                             .on_event = gameOnEvent,
-                             .game_state = &gs};
+  SolomonGameCallbacks cb = {
+    .initialize = gameInit,
+    .update = gameUpdate,
+    .render = gameRender,
+    .shutdown = gameShutdown,
+    .on_event = gameOnEvent,
+    .game_state = &gs
+  };
 
   // --- Initial set up for SDL usage --- //
-  solomonEngineStartup(&gec, &platform);
+  solomonEngineStartup(engine_config, engine_platform);
 
-  return solomonEngineRun(&gec, &cb, &platform);
+  if (solomonEngineRun(engine_config, &cb, engine_platform)) {
+    arena_free(&engine_arena);
+  }
+  return 0;
+
 }
